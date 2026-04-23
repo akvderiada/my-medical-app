@@ -1,0 +1,13 @@
+import { pool } from '@/lib/db';
+import { NextResponse } from 'next/server';
+
+export async function GET() {
+  try {
+    // This fetches all data from the test categories table [cite: 11-15]
+    const result = await pool.query('SELECT * FROM testcategories ORDER BY name ASC');
+    return NextResponse.json(result.rows);
+  } catch (error) {
+    console.error("Database error in Categories API:", error);
+    return NextResponse.json({ error: "Failed to fetch categories" }, { status: 500 });
+  }
+}
